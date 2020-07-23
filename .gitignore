@@ -1,6 +1,4 @@
 # Project exclude paths
-/.gradle/
-/build/
-/build/classes/java/main/
-/build/classes/java/test/
-appplication-google.properties
+.gradle
+.idea
+appplication-oauth.properties
