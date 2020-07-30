@@ -40,14 +40,14 @@ echo "> Build 파일 복사"
 
 cp $REPOSITORY/$PROJECT_NAME/build/libs/*.jar $REPOSITORY/
 # build 결과물인 jar 파일을 복사해 jar 파일을 모아둔 위치로 복사한다.
-echo "> 현재 구독중인 애플리케이션 pid 확인"
+echo "> 현재 구동중인 애플리케이션 pid 확인"
 
 CURRENT_PID=$(pgrep -f ${PROJECT_NAME}*.jar)
 # 기존에 수행중이던 스프링 부트 애플리케이션을 종료하기 위해 process id만 추출한다, -f 옵션은 프로세스 이름으로 찾는다.
-echo "현재 구독중인 애플리케이션 pid: $CURRENT_PID"
+echo "현재 구동중인 애플리케이션 pid: $CURRENT_PID"
 
 if [ -z "$CURRENT_PID" ]; then
-        echo ">현재구독중인 애플리케이션이 없으므로 종료하지 않습니다."
+        echo ">현재구동중인 애플리케이션이 없으므로 종료하지 않습니다."
 else
         echo "> kill -15 $CURRENT_PID"
         kill -15 $CURRENT_PID
@@ -66,4 +66,15 @@ nohup java -jar \
         $REPOSITORY/$JAR_NAME 2>&1 &
 # nohup은 쉘 스크립트파일을 데몬 형태로 실행 시키는 명령어, 터미널이 끊겨도 실행한 프로세스는 계속 동작하게 한다.
 # -Dspring.config.location 스프링 설정 파일 위치를 지정한다. 
+```
+
+MySQL 드라이버를 build.gralde에 등록하고 apllication-real-db.properties 파일을 생성
+applciation-real-db.properties 쓸수 있도록
+```shell script
+...
+nohup java -jar \
+	-Dspring.config.location=classpath:/application.properties,/home/pwj4119/app/application-oauth.properties,/home/pwj4119/app/application-real-db.properties \
+	-Dspring.profiles.active=real \
+	$REPOSITORY/$JAR_NAME 2>&1 &
+# deploy.sh nohpup 부분을 수정해야 된다.
 ```
