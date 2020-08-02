@@ -17,7 +17,20 @@ cache:
 
 script: "./gradlew clean build"
 
+before_deploy:
+  - zip -r webp *
+  - mkdir -p deploy
+  - mv webp.zip deploy/webp.zip
 
+deploy:
+  - provider: gcs
+    access_key_id: $GPC_ACCESS_KEY
+    secret_access_key: $GCP_SECRET_KEY
+    bucket: freelec-springboot-build
+    skip_cleanup: true
+    acl: private
+    local_dir: deploy
+    wait-until-delpoy: true
 notifications:
   email:
     recipients:
