@@ -16,7 +16,7 @@ cache:
     - '$HOME/.gradle'
 
 script: "./gradlew clean build"
-
+# deploy 명령어가 실행되기전에 수행
 before_deploy:
   - zip -r webp *
   - mkdir -p deploy
@@ -31,6 +31,9 @@ deploy:
     acl: private
     local_dir: deploy
     wait-until-delpoy: true
+
+  - provider: gae
+    keyfile: gce.json
 notifications:
   email:
     recipients:

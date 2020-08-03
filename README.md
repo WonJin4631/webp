@@ -78,3 +78,46 @@ nohup java -jar \
 	$REPOSITORY/$JAR_NAME 2>&1 &
 # deploy.sh nohpup 부분을 수정해야 된다.
 ```
+
+Travis CI는 깃허브에서 제공하는 무료 CI 오픈소스 웹 서비스이다. 또한 젠킨스도 무료이긴 하지만 젠킨스는 설치형이다.
+```yaml
+language: java
+jdk:
+  - openjdk8
+
+branches:
+  only:
+    - master
+
+before_install:
+  - chmod +x gradlew
+
+# Travis CI 서버의 HOME
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.gradle'
+
+script: "./gradlew clean build"
+# deploy 명령어가 실행되기전에 수행
+before_deploy:
+  - zip -r webp *
+  - mkdir -p deploy
+  - mv webp.zip deploy/webp.zip
+
+deploy:
+  - provider: gcs
+    access_key_id: $GPC_ACCESS_KEY
+    secret_access_key: $GCP_SECRET_KEY
+    bucket: freelec-springboot-build
+    skip_cleanup: true
+    acl: private
+    local_dir: deploy
+    wait-until-delpoy: true
+notifications:
+  email:
+    recipients:
+      - smartwj@naver.com
+```
+
+GCP로 진행하다 지속적 배포 부분에서 AWS와 GCP 서비스 차이점에 대한 이해가 부족한거 같아 다시 AWS로 진행 마무리하고 추후에 GCP로 변경할 예정이다.
