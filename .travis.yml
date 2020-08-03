@@ -23,17 +23,15 @@ before_deploy:
   - mv webp.zip deploy/webp.zip
 
 deploy:
-  - provider: gcs
-    access_key_id: $GPC_ACCESS_KEY
-    secret_access_key: $GCP_SECRET_KEY
-    bucket: freelec-springboot-build
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: freelec-springboot-build-won
     skip_cleanup: true
     acl: private
     local_dir: deploy
     wait-until-delpoy: true
 
-  - provider: gae
-    keyfile: gce.json
 notifications:
   email:
     recipients:
