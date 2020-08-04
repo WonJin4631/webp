@@ -39,7 +39,7 @@ deploy:
     key: webp.zip
     bundle_type: zip
     application: freelec-springboot2-webservice
-    deploymen_group: freelec-springboot2-websrvice-group
+    deploymen_group: freelec-springboot2-webservice-group
     region: ap-northeast-2
     wait-until-deployed: true
 
