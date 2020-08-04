@@ -36,7 +36,7 @@ deploy:
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
     bucket: freelec-springboot-build-won
-    key: freelec-springboot2-webservice.zip
+    key: webp.zip
     bundle_type: zip
     application: freelec-springboot2-webservice
     deploymen_group: freelec-springboot2-websrvice-group
